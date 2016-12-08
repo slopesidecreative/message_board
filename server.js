@@ -3,8 +3,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var mongoose = require('mongoose');
+var validate = require('mongoose-validator');
 var port = 8000;
-var db = 'mongodb://localhost/posttest';
+var db = 'mongodb://localhost/posttest2';
 
 // SET UP ---------------------------------------
 // for parsing the POST body
@@ -20,8 +21,78 @@ app.set('view engine','ejs');
 mongoose.connect(db, function(){
    console.log('mongoose connected');
 });
-// models are pull from another file
-var models = require('./static/js/db')(mongoose);
+
+
+/* ********** VALIDATIONS ********** */
+
+   var nameValidator = [
+     validate({
+       validator: 'isLength',
+       arguments: [4, 50],
+       message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
+     }),
+     validate({
+       validator: 'isAlphanumeric',
+       passIfEmpty: true,
+       message: 'Name should contain alpha-numeric characters only'
+     })
+   ];
+
+   var postValidator = [
+     validate({
+       validator: 'isLength',
+       arguments: [4, 500],
+       message: 'Post should be between {ARGS[0]} and {ARGS[1]} characters'
+     })
+   ];
+
+/* ********** /END VALIDATIONS ********** */
+
+/* ********** MODELS ********** */
+
+  var Schema = mongoose.Schema;
+
+   var PostSchema = new mongoose.Schema({
+     name: {
+        type: String,
+        required: true,
+        validate: nameValidator
+     },
+     content: {
+        type: String,
+        required: true,
+        validate: postValidator
+     },
+     comments: [{
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Comment'
+      }]
+     }, { timestamps:true });
+
+   var CommentSchema = new mongoose.Schema({
+      _post: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Post'
+      },
+     name: {
+        type: String,
+        required: true,
+        validate: nameValidator
+     },
+     content: {
+        type: String,
+        required: true,
+        validate: postValidator
+     }
+  }, {timestamps:true });
+
+mongoose.model('Post', PostSchema);
+mongoose.model('Comment', CommentSchema);
+var Post = mongoose.model('Post');
+var Comment = mongoose.model('Comment');
+
+
+
 
 
 // ROUTES --------------------------------------
@@ -34,7 +105,7 @@ var models = require('./static/js/db')(mongoose);
 app.get('/', function (req, res){
    console.log('Show all items.');
 
-    models.Post.find({})
+    Post.find({})
      .populate('comment')
      .exec(function(err, data) {
         console.log('it executed',data);
@@ -58,7 +129,7 @@ app.get('/', function (req, res){
 app.get('/:id', function (req, res){
    console.log('Show all items.');
 
-    models.Post.findOne({_id: req.params.id})
+    Post.findOne({_id: req.params.id})
      .populate('comment')
      .exec(function(err, post) {
         console.log('it executed',post);
@@ -80,7 +151,7 @@ app.get('/:id', function (req, res){
 app.get('/posts/:id', function (req, res){
    // console.log('Show all items.');
 
-    models.Post.findOne({_id: req.params.id})
+    Post.findOne({_id: req.params.id})
      .populate('comments')
      .exec(function(err, post) {
         console.log('it executed');
@@ -105,7 +176,7 @@ app.get('/posts/:id', function (req, res){
 */
 app.post('/', function (req, res){
    console.log('Create post: action. Post: ',req.body.content);
-   var post = new models.Post({
+   var post = new Post({
       name: req.body.name,
       content: req.body.content
    });
