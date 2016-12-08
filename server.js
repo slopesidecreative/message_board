@@ -22,9 +22,20 @@ var Item = require('./static/js/db.js');
 // "/"
 // Root - show all
 app.get('/', function (req, res){
-   console.log('Create item: form');
-   res.render('index')
+   console.log('Show all items.');
+   Item.find({}, function(err, data) {
+      if(err){
+         console.log('error: ',err);
+         res.redirect('/404',{errors:err});
+      }else{
+         res.render('index',{items:data, moment: moment});
+      }
+   })
 });
+
+
+
+
 /* POST
    /items
    Create a new item based on form submission.

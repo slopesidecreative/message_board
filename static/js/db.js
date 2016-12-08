@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var validate = require('mongoose-validator');
 
-var db = 'mongodb://localhost/msgtest';
+var db = 'mongodb://localhost/quotes';
 
 mongoose.connect(db,function(){
    console.log('mongoose connected');

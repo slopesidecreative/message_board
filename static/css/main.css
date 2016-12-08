@@ -1,25 +1,24 @@
 
 
 /* ==========================================================================
-   Author's custom styles
+   application styles
    ========================================================================== */
 html, body {
   height: 100%;
 }
-
 .wrap {
-  min-height: 100%;
+  min-height: 100%; /*for pushing the footer to the bottom of the doc*/
 }
-
 .main {
   overflow:auto;
-  padding-bottom:100px; /* this needs to be bigger than footer height*/
+  padding-bottom:100px; /*for pushing the footer to the bottom of the doc*/
 }
+/*for pushing the footer to the bottom of the doc*/
 .footer_sink {
   position: relative;
   margin-top: -100px; /* negative value of footer height */
   height: 150px;
   clear:both;
   padding-top:20px;
-  padding-left: 15%;
+  padding-left: 18%;
 }
