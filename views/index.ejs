@@ -71,12 +71,6 @@
                <% for(i=0;i<posts[post].comments.length;i++){ %>
                   <p><%= posts[post].comments[i].name %></p>
                   <p><%= posts[post].comments[i].content %></p>
-                  <!-- <h4>Comment:</h4>
-                  <ul style='list-style:none;'>
-                     <li style="font-weight:bold;font-style:italic;">"<%= posts[post].comments[comment].content %>"</li>
-                     <li style="padding-left:30px;">- <%= posts[post].comments[comment].name  %></li>
-                     <li style="padding-left:30px;">- <%= moment(posts[post].comments[comment].createdAt).format('Do MMMM, YYYY'); %></li>
-                  </ul> -->
                   <hr/>
                <% } %>
             <% } %>
