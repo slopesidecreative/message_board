@@ -24,20 +24,20 @@ var nameValidator = [
 ];
 /* ********** /END VALIDATIONS ********** */
 
+// var ItemSchema = new mongoose.Schema({
+//  name: String,
+//  quote: String
+// }, { timestamps: true });
+
+
+
 var ItemSchema = new mongoose.Schema({
- name: String,
- quote: String
-}, { timestamps: true });
-
-
-
-// var Schema = new mongoose.Schema({
-//   name: {
-//      type: String,
-//      required: true,
-//      validate: nameValidator
-//   }
-// }, { timestamps:true });
+  name: {
+     type: String,
+     required: true,
+     validate: nameValidator
+  }
+}, { timestamps:true });
 
 
 

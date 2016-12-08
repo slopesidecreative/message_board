@@ -49,11 +49,13 @@ app.post('/items', function (req, res){
    item.save(function(err){
       if(err){
          console.log('error',err);
-         res.redirect('/404',{errors:err});
+         // res.redirect(err, '/');
+         res.render('index', {title: 'you have errors!', errors: item.errors})
+         // res.redirect('/',{errors:err});
+      }else{
+         res.redirect('/');
       }
-      res.redirect('/items');
    })
-
 });
 /*
    GET /items
@@ -75,7 +77,8 @@ app.get('/items', function (req, res){
 // Error
 app.get('/404', function (err){
    console.log('ERROR ',err);
-   res.render('404',{errors:err});
+   res.redirect('/',{errors:err});
+   //res.redirect(status, url)
 });
 
 // BEGIN listening for requests -----------------
