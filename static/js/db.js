@@ -13,7 +13,7 @@ mongoose.connect(db,function(){
 var nameValidator = [
   validate({
     validator: 'isLength',
-    arguments: [3, 50],
+    arguments: [4, 50],
     message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
   }),
   validate({
@@ -22,14 +22,14 @@ var nameValidator = [
     message: 'Name should contain alpha-numeric characters only'
   })
 ];
+var postValidator = [
+  validate({
+    validator: 'isLength',
+    arguments: [4, 500],
+    message: 'Post should be between {ARGS[0]} and {ARGS[1]} characters'
+  })
+];
 /* ********** /END VALIDATIONS ********** */
-
-// var ItemSchema = new mongoose.Schema({
-//  name: String,
-//  quote: String
-// }, { timestamps: true });
-
-
 
 var ItemSchema = new mongoose.Schema({
   name: {
@@ -40,7 +40,7 @@ var ItemSchema = new mongoose.Schema({
   quote: {
      type: String,
      required: true,
-     validate: nameValidator
+     validate: postValidator
   }
 }, { timestamps:true });
 
