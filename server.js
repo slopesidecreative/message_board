@@ -93,8 +93,6 @@ var Comment = mongoose.model('Comment');
 
 
 
-
-
 // ROUTES --------------------------------------
 
 // GET "/"
@@ -130,7 +128,7 @@ app.get('/:id', function (req, res){
    console.log('Show all items.');
 
     Post.findOne({_id: req.params.id})
-     .populate('comment')
+     .populate('comments')
      .exec(function(err, post) {
         console.log('it executed',post);
           res.render('index', {posts: {post}, moment:moment});
