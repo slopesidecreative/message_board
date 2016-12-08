@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
 var validate = require('mongoose-validator');
 
+var db = 'mongodb://localhost/msgtest';
+
+mongoose.connect(db,function(){
+   console.log('mongoose connected');
+});
 
 
 
+/* ********** VALIDATIONS ********** */
 var nameValidator = [
   validate({
     validator: 'isLength',
@@ -16,10 +22,23 @@ var nameValidator = [
     message: 'Name should contain alpha-numeric characters only'
   })
 ];
+/* ********** /END VALIDATIONS ********** */
+
+var ItemSchema = new mongoose.Schema({
+ name: String,
+ quote: String
+}, { timestamps: true });
 
 
 
+// var Schema = new mongoose.Schema({
+//   name: {
+//      type: String,
+//      required: true,
+//      validate: nameValidator
+//   }
+// }, { timestamps:true });
 
-var Schema = new mongoose.Schema({
-  name: {type: String, required: true, validate: nameValidator}
-});
+
+
+module.exports = mongoose.model('item',ItemSchema);
