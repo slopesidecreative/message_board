@@ -1,10 +1,8 @@
 
-
-
-
 module.exports = function(mongoose) {
 
    var validate = require('mongoose-validator');
+
    /* ********** VALIDATIONS ********** */
    var nameValidator = [
      validate({
@@ -27,6 +25,7 @@ module.exports = function(mongoose) {
    ];
    /* ********** /END VALIDATIONS ********** */
 
+/* ********** MODELS ********** */
    var ItemSchema = new mongoose.Schema({
      name: {
         type: String,
@@ -39,9 +38,24 @@ module.exports = function(mongoose) {
         validate: postValidator
      }
    }, { timestamps:true });
-    // declare seat covers here too
+
+   var CommentSchema = new mongoose.Schema({
+     name: {
+        type: String,
+        required: true,
+        validate: nameValidator
+     },
+     quote: {
+        type: String,
+        required: true,
+        validate: postValidator
+     }
+   }, { timestamps:true });
+/* ********** /END MODELS ********** */
+
     var models = {
-      Item: mongoose.model('item', ItemSchema)
+      Item: mongoose.model('item', ItemSchema),
+      Comment: mongoose.model('comment', CommentSchema)
     };
     return models;
 

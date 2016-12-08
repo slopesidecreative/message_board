@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var moment = require('moment');
 var port = 8000;
 
+// SET UP ---------------------------------------
 // for parsing the POST body
 app.use(bodyParser.urlencoded({extended: true}));
 // set the static directory
@@ -13,27 +14,14 @@ app.set('views', __dirname + '/views');
 // set EJS as the templating engine
 app.set('view engine','ejs');
 
-
-
-// var mongoose = require('mongoose');
-// mongoose.connect(config['database_url']);
-
-
-
+// DATABASE & MODELS ---------------------------
 var mongoose = require('mongoose');
-
 var db = 'mongodb://localhost/quotes';
 mongoose.connect(db,function(){
    console.log('mongoose connected');
 });
-
+// models are pull from another file
 var models = require('./static/js/db')(mongoose);
-
-// MODELS ---------------------------------------
-// our connection to the User model via Mongoose
-// var Item = require('./static/js/db.js');
-// var Item = new models.Item({name:"erik",quote:"nothing"});
-// console.log('Item: ',Item);
 
 // ROUTES --------------------------------------
 
