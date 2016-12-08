@@ -1,4 +1,9 @@
 
+// !!!!!!!!!!!!!!!!!!!!
+// OK - NOW THAT I HAVE IT WORKING WILL HAVE TO TRY THIS AGAIN....
+// IT DIDN'T QUITE WORK THE FIRST LONG EFFORT....
+// THIS CODE IS NOT NOT NOT CURRENTLY IN USE....
+
 module.exports = function(mongoose) {
 
    var validate = require('mongoose-validator');

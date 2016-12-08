@@ -67,21 +67,21 @@
             <li><%= posts[post]._id %></li>
             <li style="font-weight:bold;font-style:italic;">"<%= posts[post].content %>"</li>
             <li style="padding-left:30px;">- <%= posts[post].name %></li>
+            <li style="padding-left:30px; padding-bottom:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
             <% if(posts[post].comments.length>0){ %>
+               <h3>Comments:</h3>
                <% for(i=0;i<posts[post].comments.length;i++){ %>
-                  <p><%= posts[post].comments[i].name %></p>
                   <p><%= posts[post].comments[i].content %></p>
+                  <p><%= posts[post].comments[i].name %></p>
                   <hr/>
                <% } %>
             <% } %>
-            <li style="padding-left:30px; padding-bottom:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
-
             <h4>Add A Comment!</h4>
             <form action="/posts/<%= posts[post]._id %>/comments" method="post" style="padding-bottom: 20px;">
-               <label for="name">Name</label>
+               <label for="name">Name</label><br/>
                <input type="text" name="name"><br/>
                <label for="content">Comment</label><br/>
-               <textarea rows="5" cols="20" name="content"></textarea>
+               <textarea rows="5" cols="20" name="content"></textarea><br/>
                <input type="hidden" name="post_id" value="<%= posts[post]._id %>">
                <button type="submit">Add Comment!</button>
             </form>
