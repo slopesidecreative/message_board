@@ -26,13 +26,13 @@ module.exports = function(mongoose) {
    /* ********** /END VALIDATIONS ********** */
 
 /* ********** MODELS ********** */
-   var ItemSchema = new mongoose.Schema({
+   var PostSchema = new mongoose.Schema({
      name: {
         type: String,
         required: true,
         validate: nameValidator
      },
-     quote: {
+     content: {
         type: String,
         required: true,
         validate: postValidator
@@ -45,7 +45,7 @@ module.exports = function(mongoose) {
         required: true,
         validate: nameValidator
      },
-     quote: {
+     content: {
         type: String,
         required: true,
         validate: postValidator
@@ -54,7 +54,7 @@ module.exports = function(mongoose) {
 /* ********** /END MODELS ********** */
 
     var models = {
-      Item: mongoose.model('item', ItemSchema),
+      Post: mongoose.model('post', PostSchema),
       Comment: mongoose.model('comment', CommentSchema)
     };
     return models;

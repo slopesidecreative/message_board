@@ -2,7 +2,9 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var moment = require('moment');
+var mongoose = require('mongoose');
 var port = 8000;
+var db = 'mongodb://localhost/posttest';
 
 // SET UP ---------------------------------------
 // for parsing the POST body
@@ -15,9 +17,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
 
 // DATABASE & MODELS ---------------------------
-var mongoose = require('mongoose');
-var db = 'mongodb://localhost/quotes';
-mongoose.connect(db,function(){
+mongoose.connect(db, function(){
    console.log('mongoose connected');
 });
 // models are pull from another file
@@ -29,12 +29,12 @@ var models = require('./static/js/db')(mongoose);
 // Root - show all
 app.get('/', function (req, res){
    console.log('Show all items.');
-    models.Item.find({}, function(err, data) {
+    models.Post.find({}, function(err, data) {
       if(err){
          console.log('error: ',err);
          res.render('index', {title: 'you have errors!', errors: err})
       }else{
-         res.render('index',{items:data, moment: moment});
+         res.render('index',{posts:data, moment: moment});
       }
    })
 });
@@ -44,15 +44,15 @@ app.get('/', function (req, res){
    Create a new item based on form submission.
 */
 app.post('/', function (req, res){
-   console.log('Create item: action. Quote: ',req.body.quote);
-   var item = new models.Item({
+   console.log('Create post: action. Post: ',req.body.content);
+   var post = new models.Post({
       name: req.body.name,
-      quote: req.body.quote
+      content: req.body.content
    });
-   item.save(function(err){
+   post.save(function(err){
       if(err){
          console.log('error',err);
-         res.render('index', {title: 'you have errors!', errors: item.errors})
+         res.render('index', {title: 'you have errors!', errors: post.errors})
       }else{
          res.redirect('/');
       }
