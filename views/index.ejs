@@ -64,7 +64,7 @@
          <h3>Our Posts!</h3>
          <ul style='list-style:none;'>
             <% for(post in posts){ %>
-            <!-- <li><%= posts[post]._id %></li> -->
+            <li><%= posts[post]._id %></li>
             <li style="font-style:italic;">"<%= posts[post].content %>"</li>
             <li style="padding-left:30px;">- <%= posts[post].name %></li>
             <li style="padding-left:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>

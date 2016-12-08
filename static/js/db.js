@@ -3,7 +3,8 @@ module.exports = function(mongoose) {
 
    var validate = require('mongoose-validator');
 
-   /* ********** VALIDATIONS ********** */
+/* ********** VALIDATIONS ********** */
+
    var nameValidator = [
      validate({
        validator: 'isLength',
@@ -16,6 +17,7 @@ module.exports = function(mongoose) {
        message: 'Name should contain alpha-numeric characters only'
      })
    ];
+
    var postValidator = [
      validate({
        validator: 'isLength',
@@ -23,9 +25,13 @@ module.exports = function(mongoose) {
        message: 'Post should be between {ARGS[0]} and {ARGS[1]} characters'
      })
    ];
-   /* ********** /END VALIDATIONS ********** */
+
+/* ********** /END VALIDATIONS ********** */
 
 /* ********** MODELS ********** */
+
+  var Schema = mongoose.Schema;
+
    var PostSchema = new mongoose.Schema({
      name: {
         type: String,
@@ -36,10 +42,18 @@ module.exports = function(mongoose) {
         type: String,
         required: true,
         validate: postValidator
-     }
-   }, { timestamps:true });
+     },
+     comments: [{
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Comment'
+      }]
+     }, { timestamps:true });
 
    var CommentSchema = new mongoose.Schema({
+      _post: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: 'Post'
+      },
      name: {
         type: String,
         required: true,
@@ -50,13 +64,15 @@ module.exports = function(mongoose) {
         required: true,
         validate: postValidator
      }
-   }, { timestamps:true });
+  }, {timestamps:true });
+
 /* ********** /END MODELS ********** */
 
     var models = {
       Post: mongoose.model('post', PostSchema),
-      Comment: mongoose.model('comment', CommentSchema)
+      CommentSchema: mongoose.model('comment', CommentSchema)
     };
+
     return models;
 
 }

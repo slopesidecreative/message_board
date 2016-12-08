@@ -23,20 +23,53 @@ mongoose.connect(db, function(){
 // models are pull from another file
 var models = require('./static/js/db')(mongoose);
 
+
 // ROUTES --------------------------------------
 
 // GET "/"
 // Root - show all
-app.get('/', function (req, res){
+app.get('/:id', function (req, res){
    console.log('Show all items.');
-    models.Post.find({}, function(err, data) {
-      if(err){
-         console.log('error: ',err);
-         res.render('index', {title: 'you have errors!', errors: err})
-      }else{
-         res.render('index',{posts:data, moment: moment});
-      }
-   })
+
+    models.Post.findOne({_id: req.params.id})
+     .populate('comment')
+     .exec(function(err, post) {
+        console.log('it executed',post);
+          res.render('index', {posts: {post}, moment:moment});
+            });
+
+
+   //  models.Post.find({}, function(err, data) {
+   //    if(err){
+   //       console.log('error: ',err);
+   //       res.render('index', {title: 'you have errors!', errors: err})
+   //    }else{
+   //       res.render('index',{posts:data, moment: moment});
+   //    }
+   // })
+
+});
+
+app.get('/posts/:id', function (req, res){
+   // console.log('Show all items.');
+
+    models.Post.findOne({_id: req.params.id})
+     .populate('comments')
+     .exec(function(err, post) {
+        console.log('it executed');
+          res.render('index', {posts: {post}});
+            });
+
+
+   //  models.Post.findOne({_id: req.params.id}, function(err, data) {
+   //    if(err){
+   //       console.log('error: ',err);
+   //       res.render('index', {title: 'you have errors!', errors: err})
+   //    }else{
+   //       res.render('index',{posts:{data}, moment: moment});
+   //    }
+   // })
+
 });
 
 /* POST
