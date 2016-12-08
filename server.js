@@ -13,9 +13,27 @@ app.set('views', __dirname + '/views');
 // set EJS as the templating engine
 app.set('view engine','ejs');
 
+
+
+// var mongoose = require('mongoose');
+// mongoose.connect(config['database_url']);
+
+
+
+var mongoose = require('mongoose');
+
+var db = 'mongodb://localhost/quotes';
+mongoose.connect(db,function(){
+   console.log('mongoose connected');
+});
+
+var models = require('./static/js/db')(mongoose);
+
 // MODELS ---------------------------------------
 // our connection to the User model via Mongoose
-var Item = require('./static/js/db.js');
+// var Item = require('./static/js/db.js');
+// var Item = new models.Item({name:"erik",quote:"nothing"});
+// console.log('Item: ',Item);
 
 // ROUTES --------------------------------------
 
@@ -23,7 +41,7 @@ var Item = require('./static/js/db.js');
 // Root - show all
 app.get('/', function (req, res){
    console.log('Show all items.');
-   Item.find({}, function(err, data) {
+    models.Item.find({}, function(err, data) {
       if(err){
          console.log('error: ',err);
          res.render('index', {title: 'you have errors!', errors: err})
@@ -39,7 +57,7 @@ app.get('/', function (req, res){
 */
 app.post('/', function (req, res){
    console.log('Create item: action. Quote: ',req.body.quote);
-   var item = new Item({
+   var item = new models.Item({
       name: req.body.name,
       quote: req.body.quote
    });
