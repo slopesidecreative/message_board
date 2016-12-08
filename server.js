@@ -5,7 +5,7 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var validate = require('mongoose-validator');
 var port = 8000;
-var db = 'mongodb://localhost/posttest2';
+var db = 'mongodb://localhost/posttest3';
 
 // SET UP ---------------------------------------
 // for parsing the POST body
