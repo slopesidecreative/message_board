@@ -19,28 +19,25 @@ var Item = require('./static/js/db.js');
 
 // ROUTES --------------------------------------
 
-// "/"
+// GET "/"
 // Root - show all
 app.get('/', function (req, res){
    console.log('Show all items.');
    Item.find({}, function(err, data) {
       if(err){
          console.log('error: ',err);
-         res.redirect('/404',{errors:err});
+         res.render('index', {title: 'you have errors!', errors: err})
       }else{
          res.render('index',{items:data, moment: moment});
       }
    })
 });
 
-
-
-
 /* POST
-   /items
+   "/"
    Create a new item based on form submission.
 */
-app.post('/items', function (req, res){
+app.post('/', function (req, res){
    console.log('Create item: action. Quote: ',req.body.quote);
    var item = new Item({
       name: req.body.name,
@@ -49,36 +46,11 @@ app.post('/items', function (req, res){
    item.save(function(err){
       if(err){
          console.log('error',err);
-         // res.redirect(err, '/');
          res.render('index', {title: 'you have errors!', errors: item.errors})
-         // res.redirect('/',{errors:err});
       }else{
          res.redirect('/');
       }
    })
-});
-/*
-   GET /items
-   Show all items.
-*/
-app.get('/items', function (req, res){
-   console.log('Show all items.');
-   Item.find({}, function(err, data) {
-      if(err){
-         console.log('error: ',err);
-         res.redirect('/404',{errors:err});
-      }else{
-         res.render('index',{items:data, moment: moment});
-      }
-   })
-});
-
-// "/404"
-// Error
-app.get('/404', function (err){
-   console.log('ERROR ',err);
-   res.redirect('/',{errors:err});
-   //res.redirect(status, url)
 });
 
 // BEGIN listening for requests -----------------

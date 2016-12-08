@@ -36,6 +36,11 @@ var ItemSchema = new mongoose.Schema({
      type: String,
      required: true,
      validate: nameValidator
+  },
+  quote: {
+     type: String,
+     required: true,
+     validate: nameValidator
   }
 }, { timestamps:true });
 
