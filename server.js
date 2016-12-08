@@ -28,6 +28,33 @@ var models = require('./static/js/db')(mongoose);
 
 // GET "/"
 // Root - show all
+
+
+
+app.get('/', function (req, res){
+   console.log('Show all items.');
+
+    models.Post.find({})
+     .populate('comment')
+     .exec(function(err, data) {
+        console.log('it executed',data);
+          res.render('index', {posts: data, moment:moment});
+            });
+
+
+   //  models.Post.find({}, function(err, data) {
+   //    if(err){
+   //       console.log('error: ',err);
+   //       res.render('index', {title: 'you have errors!', errors: err})
+   //    }else{
+   //       res.render('index',{posts:data, moment: moment});
+   //    }
+   // })
+
+});
+
+
+
 app.get('/:id', function (req, res){
    console.log('Show all items.');
 

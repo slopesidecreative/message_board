@@ -51,6 +51,7 @@
          <textarea name="content" rows="4" cols="50"></textarea><br/>
          <button type='submit'>Add New Post!</button>
       </form>
+      <hr/>
    </div>
    <div class="col-xs-2 col-md-2"></div>
 </div>
@@ -60,20 +61,27 @@
 <div class="row">
    <div class="col-xs-2 col-md-2"></div>
    <div class="col-xs-8 col-md-8">
-      <div id='results'>
          <h3>Our Posts!</h3>
+         <% for(post in posts){ %>
          <ul style='list-style:none;'>
-            <% for(post in posts){ %>
+
             <li><%= posts[post]._id %></li>
-            <li style="font-style:italic;">"<%= posts[post].content %>"</li>
+            <li style="font-weight:bold;font-style:italic;">"<%= posts[post].content %>"</li>
             <li style="padding-left:30px;">- <%= posts[post].name %></li>
-            <li style="padding-left:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
-            <hr/>
-            <br/>
-            <% } %>
-            <hr/>
+            <li style="padding-left:30px; padding-bottom:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
+
+            <h4>Add A Comment!</h4>
+            <form action="/comments" method="post" style="padding-bottom: 20px;">
+               <label for="name">Name</label>
+               <input type="text" name="name"><br/>
+               <label for="content">Comment</label><br/>
+               <textarea rows="5" cols="20" name="content"></textarea>
+               <input type="hidden" name="post_id" value="<%= posts[post]._id %>">
+               <button type="submit">Add Comment!</button>
+            </form>
          </ul>
-      </div>
+         <hr/>
+         <% } %>
    </div>
    <div class="col-xs-2 col-md-2"></div>
 </div>
