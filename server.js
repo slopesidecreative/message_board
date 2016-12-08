@@ -104,7 +104,7 @@ app.get('/', function (req, res){
    console.log('Show all items.');
 
     Post.find({})
-     .populate('comment')
+     .populate('comments')
      .exec(function(err, data) {
         console.log('it executed',data);
           res.render('index', {posts: data, moment:moment});
@@ -170,7 +170,7 @@ app.get('/posts/:id', function (req, res){
 
 /* POST
    "/"
-   Create a new item based on form submission.
+   Create a new POST based on form submission.
 */
 app.post('/', function (req, res){
    console.log('Create post: action. Post: ',req.body.content);
@@ -187,6 +187,47 @@ app.post('/', function (req, res){
       }
    })
 });
+
+app.post('/posts/:id/comments', function (req, res){
+   console.log('Create COMMENT ',req.body);
+   Post.findOne({_id: req.params.id}, function(err, post){
+
+     var comment = new Comment({
+        _post: req.params.id,
+        name: req.body.name,
+        content: req.body.content
+     });
+
+   //   console.log('comment: ',comment);
+   //   console.log('found user: ',post);
+   //   res.redirect('/');
+
+   //   now save both to the DB
+     comment.save(function(err){
+        if(err){
+           console.log('error',err);
+           res.render('index', {title: 'you have errors!', errors: err})
+        }else{
+           post.comments.push(comment);
+           post.save(function(err){
+             if(err){
+                console.log('Error',err);
+
+             }else{
+                res.redirect('/');
+             }
+          })
+        }
+      });
+   })
+})
+
+
+
+
+
+
+
 
 // BEGIN listening for requests -----------------
 var server = app.listen(port,function(){

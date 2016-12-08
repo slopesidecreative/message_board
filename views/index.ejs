@@ -74,7 +74,7 @@
             <li style="padding-left:30px; padding-bottom:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
 
             <h4>Add A Comment!</h4>
-            <form action="/posts/<%= posts[post]._id/comments %>" method="post" style="padding-bottom: 20px;">
+            <form action="/posts/<%= posts[post]._id %>/comments" method="post" style="padding-bottom: 20px;">
                <label for="name">Name</label>
                <input type="text" name="name"><br/>
                <label for="content">Comment</label><br/>
