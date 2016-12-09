@@ -1,8 +1,8 @@
 
-// !!!!!!!!!!!!!!!!!!!!
-// OK - NOW THAT I HAVE IT WORKING WILL HAVE TO TRY THIS AGAIN....
-// IT DIDN'T QUITE WORK THE FIRST LONG EFFORT....
+//
 // THIS CODE IS NOT NOT NOT CURRENTLY IN USE....
+// WILL BE MOVING THE MODELS OUT OF server.js
+//
 
 module.exports = function(mongoose) {
 
