@@ -35,7 +35,10 @@
 <!-- HEADER -->
 <div class="row">
    <div class="col-xs-2 col-md-2"></div>
-   <div class="col-xs-8 col-md-8"><h2>Message Board</h2></div>
+   <div class="col-xs-8 col-md-8">
+      <h2>Message Board</h2>
+      <hr/>
+   </div>
    <div class="col-xs-2 col-md-2"></div>
 </div>
 
@@ -48,10 +51,9 @@
          <label for="name">Name:</label><br/>
          <input type="text" name="name"><br/>
          <label for="content">Post:</label><br/>
-         <textarea name="content" rows="4" cols="50"></textarea><br/>
+         <textarea name="content" rows="4" cols="40"></textarea><br/>
          <button type='submit'>Add New Post!</button>
       </form>
-      <hr/>
    </div>
    <div class="col-xs-2 col-md-2"></div>
 </div>
@@ -61,27 +63,37 @@
 <div class="row">
    <div class="col-xs-2 col-md-2"></div>
    <div class="col-xs-8 col-md-8">
+         <hr/>
          <h3>Our Posts!</h3>
+         <hr/>
          <% for(post in posts){ %>
          <ul style='list-style:none;'>
-            <li><%= posts[post]._id %></li>
-            <li style="font-weight:bold;font-style:italic;">"<%= posts[post].content %>"</li>
+            <!-- <li><%= posts[post]._id %></li> -->
+            <li style="font-size: 1.5em;font-weight:bold;font-style:italic;">"<%= posts[post].content %>"</li>
             <li style="padding-left:30px;">- <%= posts[post].name %></li>
             <li style="padding-left:30px; padding-bottom:30px;">- <%= moment(posts[post].createdAt).format('Do MMMM, YYYY'); %></li>
             <% if(posts[post].comments.length>0){ %>
-               <h3>Comments:</h3>
+               <h4>Comments:</h4>
+               <table>
                <% for(i=0;i<posts[post].comments.length;i++){ %>
-                  <p><%= posts[post].comments[i].content %></p>
-                  <p><%= posts[post].comments[i].name %></p>
-                  <hr/>
+                  <tr>
+                  <td><%= posts[post].comments[i].content %></td>
+                  </tr>
+                  <tr>
+                  <td><%= posts[post].comments[i].name %></td>
+                  </tr>
+                  <tr>
+                     <td><hr/></td>
+                  </tr>
                <% } %>
+               </table>
             <% } %>
             <h4>Add A Comment!</h4>
             <form action="/posts/<%= posts[post]._id %>/comments" method="post" style="padding-bottom: 20px;">
                <label for="name">Name</label><br/>
                <input type="text" name="name"><br/>
                <label for="content">Comment</label><br/>
-               <textarea rows="5" cols="20" name="content"></textarea><br/>
+               <textarea rows="4" cols="40" name="content"></textarea><br/>
                <input type="hidden" name="post_id" value="<%= posts[post]._id %>">
                <button type="submit">Add Comment!</button>
             </form>

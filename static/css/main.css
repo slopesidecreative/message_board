@@ -21,3 +21,8 @@ html, body {
   padding-top:20px;
   padding-left: 18%;
 }
+
+ul, ul li {
+    margin-left: 0;
+    padding-left: 0;
+}
