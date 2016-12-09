@@ -5,7 +5,7 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var validate = require('mongoose-validator');
 var port = 8000;
-var db = 'mongodb://localhost/posttest3';
+var db = 'mongodb://localhost/posttest4';
 
 // SET UP ---------------------------------------
 // for parsing the POST body
@@ -63,7 +63,8 @@ mongoose.connect(db, function(){
          type: mongoose.Schema.Types.ObjectId,
          ref: 'Comment'
       }]
-     }, { timestamps:true });
+     }, {timestamps:{createdAt: 'created_at', updatedAt: 'updated_at'}}
+  );
 
    var CommentSchema = new mongoose.Schema({
       _post: {
@@ -80,7 +81,8 @@ mongoose.connect(db, function(){
         required: true,
         validate: postValidator
      }
-  }, {timestamps:true });
+  }, {timestamps:{createdAt: 'created_at', updatedAt: 'updated_at'}}
+);
 
 mongoose.model('Post', PostSchema);
 mongoose.model('Comment', CommentSchema);
@@ -95,6 +97,7 @@ var Comment = mongoose.model('Comment');
 app.get('/', function (req, res){
    console.log('Show all items.');
     Post.find({})
+     .sort({created_at: -1})
      .populate('comments')
      .exec(function(err, data) {
         console.log('it executed',data);
