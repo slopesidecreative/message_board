@@ -24,7 +24,6 @@ mongoose.connect(db, function(){
 
 
 /* ********** VALIDATIONS ********** */
-
    var nameValidator = [
      validate({
        validator: 'isLength',
@@ -45,11 +44,9 @@ mongoose.connect(db, function(){
        message: 'Post should be between {ARGS[0]} and {ARGS[1]} characters'
      })
    ];
-
 /* ********** /END VALIDATIONS ********** */
 
 /* ********** MODELS ********** */
-
   var Schema = mongoose.Schema;
 
    var PostSchema = new mongoose.Schema({
@@ -90,90 +87,27 @@ mongoose.model('Post', PostSchema);
 mongoose.model('Comment', CommentSchema);
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
-
-
+/* ********** /END MODELS ********** */
 
 // ROUTES --------------------------------------
 
 // GET "/"
 // Root - show all
-
-
-
 app.get('/', function (req, res){
    console.log('Show all items.');
-
     Post.find({})
      .populate('comments')
      .exec(function(err, data) {
         console.log('it executed',data);
           res.render('index', {posts: data, moment:moment});
             });
-
-
-   //  models.Post.find({}, function(err, data) {
-   //    if(err){
-   //       console.log('error: ',err);
-   //       res.render('index', {title: 'you have errors!', errors: err})
-   //    }else{
-   //       res.render('index',{posts:data, moment: moment});
-   //    }
-   // })
-
 });
 
-
-
-app.get('/:id', function (req, res){
-   console.log('Show all items.');
-
-    Post.findOne({_id: req.params.id})
-     .populate('comments')
-     .exec(function(err, post) {
-        console.log('it executed',post);
-          res.render('index', {posts: {post}, moment:moment});
-            });
-
-
-   //  models.Post.find({}, function(err, data) {
-   //    if(err){
-   //       console.log('error: ',err);
-   //       res.render('index', {title: 'you have errors!', errors: err})
-   //    }else{
-   //       res.render('index',{posts:data, moment: moment});
-   //    }
-   // })
-
-});
-
-app.get('/posts/:id', function (req, res){
-   // console.log('Show all items.');
-
-    Post.findOne({_id: req.params.id})
-     .populate('comments')
-     .exec(function(err, post) {
-        console.log('it executed');
-          res.render('index', {posts: {post}});
-            });
-
-
-   //  models.Post.findOne({_id: req.params.id}, function(err, data) {
-   //    if(err){
-   //       console.log('error: ',err);
-   //       res.render('index', {title: 'you have errors!', errors: err})
-   //    }else{
-   //       res.render('index',{posts:{data}, moment: moment});
-   //    }
-   // })
-
-});
-
-/* POST
-   "/"
+/* POST "/"
    Create a new POST based on form submission.
 */
 app.post('/', function (req, res){
-   console.log('Create post: action. Post: ',req.body.content);
+   console.log('Create POST: action. Post: ',req.body.content);
    var post = new Post({
       name: req.body.name,
       content: req.body.content
@@ -187,22 +121,18 @@ app.post('/', function (req, res){
       }
    })
 });
-
+/* POST "/posts/:id/comments"
+   Create a new COMMENT based on form submission.
+*/
 app.post('/posts/:id/comments', function (req, res){
    console.log('Create COMMENT ',req.body);
    Post.findOne({_id: req.params.id}, function(err, post){
-
      var comment = new Comment({
         _post: req.params.id,
         name: req.body.name,
         content: req.body.content
      });
 
-   //   console.log('comment: ',comment);
-   //   console.log('found user: ',post);
-   //   res.redirect('/');
-
-   //   now save both to the DB
      comment.save(function(err){
         if(err){
            console.log('error',err);
@@ -211,8 +141,7 @@ app.post('/posts/:id/comments', function (req, res){
            post.comments.push(comment);
            post.save(function(err){
              if(err){
-                console.log('Error',err);
-
+                res.render('index', {title: 'you have errors!', errors: post.errors})
              }else{
                 res.redirect('/');
              }
@@ -222,12 +151,24 @@ app.post('/posts/:id/comments', function (req, res){
    })
 })
 
-
-
-
-
-
-
+// Extra route for development
+app.get('/:id', function (req, res){
+   console.log('Show a post by ID.');
+    Post.findOne({_id: req.params.id})
+     .populate('comments')
+     .exec(function(err, post) {
+          res.render('index', {posts: {post}, moment:moment});
+            });
+});
+// Extra route for development
+app.get('/posts/:id', function (req, res){
+   console.log('Show a post by ID');
+    Post.findOne({_id: req.params.id})
+     .populate('comments')
+     .exec(function(err, post) {
+          res.render('index', {posts: {post}});
+            });
+});
 
 // BEGIN listening for requests -----------------
 var server = app.listen(port,function(){
