@@ -17,11 +17,10 @@ app.set('views', __dirname + '/views');
 // set EJS as the templating engine
 app.set('view engine','ejs');
 
-// DATABASE & MODELS ---------------------------
+// DATABASE ---------------------------
 mongoose.connect(db, function(){
    console.log('mongoose connected');
 });
-
 
 /* ********** VALIDATIONS ********** */
    var nameValidator = [
