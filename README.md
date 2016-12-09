@@ -1,5 +1,3 @@
-# my base site template
+# message board
 
-rooted in HTML5boilerplate and Dojo classwork.
-
-(this is before adding an MVC framework)
+Associated data and CRUD functions using Mongoose, MongoDB, Express, Node. 
